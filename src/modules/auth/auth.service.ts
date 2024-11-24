@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -9,8 +10,6 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
-
-    
     async signIn(email: string, password: string) {
         const user = await this.userService.findOneBy(email);
         if (!user) throw new NotFoundException(`User  not found`);
@@ -19,5 +18,9 @@ export class AuthService {
         return {
             token: this.jwtService.sign(payload)
         };
+    }
+
+    async signUp(payload: CreateUserDto) {
+        return this.userService.create(payload);
     }
 }
