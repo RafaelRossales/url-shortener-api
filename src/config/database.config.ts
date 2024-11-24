@@ -1,3 +1,4 @@
+import { UrlEntity } from "src/modules/urls/entities/url.entity";
 import { UserEntity } from "src/modules/users/entities/user.entity";
 
 
@@ -21,7 +22,7 @@ export const databaseConfig = ():DatabaseConfig => ({
     username: process.env.DB_USERNAME || 'user',
     password: process.env.DB_PASSWORD || 'password',
     database: process.env.DB_NAME || 'nest',
-    entities:[UserEntity],
+    entities:[UserEntity, UrlEntity],
     synchronize: true,
     logging: true,
   });

@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, Entity} from "typeorm";
+import { UrlEntity } from "src/modules/urls/entities/url.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, Entity, ManyToMany} from "typeorm";
 
 @Entity('users')
 export class UserEntity {
@@ -14,6 +15,9 @@ export class UserEntity {
 
     @Column()
     password:string;
+
+    @ManyToMany(() => UrlEntity, (url) => url.user)
+    urls: UrlEntity[];
 
     @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
     createdAt:Date;
