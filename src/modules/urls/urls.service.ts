@@ -29,6 +29,25 @@ export class UrlsService {
     return url;
   }
 
+  async listUserUrls(user: UserEntity): Promise<UrlEntity[]> {
+    return this.urlRepository.find({
+      where:{userId:user.id, deletedAt:null }
+    });
+  }
 
+  async updateUrl(id: string,newUrl:string, user:UserEntity): Promise<UrlEntity> {
+    const url = await this.urlRepository.findOne({ where: { id, userId:user.id, deletedAt: null } });
+    if(!url) throw new NotFoundException('Url not found');
+    url.originalUrl = newUrl;
+    return this.urlRepository.save(url);
+  }
+
+
+  async deleteUrl(id: string, user: UserEntity): Promise<void> {
+    const url = await this.urlRepository.findOne({ where: { id, userId:user.id, deletedAt: null } });
+    if(!url) throw new NotFoundException('Url not found');
+    url.deletedAt = new Date();
+    await this.urlRepository.save(url);
+  }
 
 }
