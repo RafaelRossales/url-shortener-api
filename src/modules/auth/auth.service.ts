@@ -9,6 +9,8 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
+
+    
     async signIn(email: string, password: string) {
         const user = await this.userService.findOneBy(email);
         if (!user) throw new NotFoundException(`User  not found`);

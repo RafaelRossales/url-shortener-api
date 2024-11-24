@@ -5,10 +5,15 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../users/entities/user.entity';
+import { AuthGuard } from './auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [{
+    provide:APP_GUARD,
+    useClass:AuthGuard
+  },AuthService],
   imports: [UsersModule,
     JwtModule.register({
       global: true,

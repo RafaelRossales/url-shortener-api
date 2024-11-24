@@ -2,6 +2,7 @@ import {CanActivate, ExecutionContext, Injectable, UnauthorizedException }  from
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from    'express';
+import { IS_PUBLIC_KEY } from "./auth-public-strategy";
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class AuthGuard implements CanActivate {
     ) {}
 
     canActivate(context: ExecutionContext): boolean {
-        const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
+        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
             context.getHandler(),
             context.getClass()
         ]);
@@ -40,12 +41,18 @@ export class AuthGuard implements CanActivate {
         }
     }
 
-    private extractToken(request:Request) {
-        const [type, token] = request.headers.authorization?.split(' ')[1];
-        if (!token) {
-            throw new UnauthorizedException('Unauthorized access');
+    private extractToken(request: Request): string | undefined {
+        const authHeader = request.headers.authorization;
+        if (!authHeader) {
+            throw new UnauthorizedException('Authorization header missing');
         }
-        return type === 'Bearer ' ? token : null;
+    
+        const [type, token] = authHeader.split(' ');
+        if (type !== 'Bearer' || !token) {
+            throw new UnauthorizedException('Invalid token format');
+        }
+    
+        return token;
     }
 }
 
