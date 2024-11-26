@@ -23,5 +23,5 @@ export const databaseConfig = ():DatabaseConfig => ({
     database: process.env.DATABASE_NAME || 'nest',
     entities:[UserEntity, UrlEntity],
     synchronize: true,
-    logging: true,
+    logging: false,
   });

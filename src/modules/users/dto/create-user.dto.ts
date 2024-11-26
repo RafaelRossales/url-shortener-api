@@ -1,7 +1,16 @@
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-import { UserEntityDto } from "./user-entity.dto";
-import { OmitType, PartialType } from "@nestjs/mapped-types";
+export class CreateUserDto {
+    @IsString()
+    @IsNotEmpty()
+    readonly name: string;
 
-export class CreateUserDto extends PartialType(
-    OmitType(UserEntityDto, ['id', 'createdAt', 'updatedAt'] as const)
-) {}
+    @IsString()
+    @IsNotEmpty()
+    @IsEmail()
+    readonly email: string;
+
+    @IsString()
+    @IsNotEmpty()
+    readonly password: string; 
+}

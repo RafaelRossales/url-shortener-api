@@ -21,6 +21,8 @@ export class AuthService {
     }
 
     async signUp(payload: CreateUserDto) {
+        if(await this.userService.findOneBy(payload.email)) 
+            throw new UnauthorizedException(`User already exists`);
         return this.userService.create(payload);
     }
 }
