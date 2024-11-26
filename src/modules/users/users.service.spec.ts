@@ -7,6 +7,8 @@ import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+const mokeuuid = '90855jjgiogpçltkpotrhphk';
+
 describe('UsersService', () => {
   let service: UsersService;
   let repository: Repository<UserEntity>;
@@ -60,15 +62,15 @@ describe('UsersService', () => {
       const user = new UserEntity();
       jest.spyOn(repository, 'findOne').mockResolvedValue(user);
 
-      const result = await service.findOne('some-uuid');
+      const result = await service.findOne(mokeuuid);
       expect(result).toBe(user);
-      expect(repository.findOne).toHaveBeenCalledWith({ where: { id: 'some-uuid' } });
+      expect(repository.findOne).toHaveBeenCalledWith({ where: { id: mokeuuid } });
     });
 
     it('should throw a NotFoundException if user is not found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
 
-      await expect(service.findOne('some-uuid')).rejects.toThrow(NotFoundException);
+      await expect(service.findOne(mokeuuid)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -90,16 +92,16 @@ describe('UsersService', () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(user);
       jest.spyOn(repository, 'save').mockResolvedValue(user);
 
-      const result = await service.update('some-uuid', updateUserDto);
+      const result = await service.update(mokeuuid, updateUserDto);
       expect(result).toBe(user);
-      expect(repository.findOne).toHaveBeenCalledWith({ where: { id: 'some-uuid' } });
+      expect(repository.findOne).toHaveBeenCalledWith({ where: { id: mokeuuid } });
       expect(repository.save).toHaveBeenCalledWith(user);
     });
 
     it('should throw a NotFoundException if user is not found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
 
-      await expect(service.update('some-uuid', {} as UpdateUserDto)).rejects.toThrow(NotFoundException);
+      await expect(service.update(mokeuuid, {} as UpdateUserDto)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -109,8 +111,8 @@ describe('UsersService', () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(user);
       jest.spyOn(repository, 'save').mockResolvedValue(user);
 
-      await service.remove('some-uuid');
-      expect(repository.findOne).toHaveBeenCalledWith({ where: { id: 'some-uuid' } });
+      await service.remove(mokeuuid);
+      expect(repository.findOne).toHaveBeenCalledWith({ where: { id: mokeuuid } });
       expect(repository.save).toHaveBeenCalledWith(user);
       expect(user.deletedAt).toBeInstanceOf(Date);
     });
@@ -118,7 +120,7 @@ describe('UsersService', () => {
     it('should throw a NotFoundException if user is not found', async () => {
       jest.spyOn(repository, 'findOne').mockResolvedValue(null);
 
-      await expect(service.remove('some-uuid')).rejects.toThrow(NotFoundException);
+      await expect(service.remove(mokeuuid)).rejects.toThrow(NotFoundException);
     });
   });
 });

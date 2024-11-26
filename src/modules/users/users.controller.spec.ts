@@ -3,6 +3,8 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
 
+const mokeuuid = '90855jjgiogpçltkpotrhphk';
+
 describe('UsersController', () => {
   let controller: UsersController;
   let service: UsersService;
@@ -42,35 +44,26 @@ describe('UsersController', () => {
 
   describe('findOne', () => {
     it('should return a single user', async () => {
-      const result = await controller.findOne('some-uuid');
+      const result = await controller.findOne(mokeuuid);
       expect(result).toBeInstanceOf(UserEntity);
-      expect(service.findOne).toHaveBeenCalledWith('some-uuid');
+      expect(service.findOne).toHaveBeenCalledWith(mokeuuid);
     });
   });
-
-  // describe('create', () => {
-  //   it('should create a new user', async () => {
-  //     const userDto = { name: 'John Doe', email: 'john.doe@example.com', password: 'password' };
-  //     const result = await controller.create(userDto);
-  //     expect(result).toBeInstanceOf(UserEntity);
-  //     expect(service.create).toHaveBeenCalledWith(userDto);
-  //   });
-  // });
 
   describe('update', () => {
     it('should update a user', async () => {
       const userDto = { name: 'John Doe', email: 'john.doe@example.com', password: 'password' };
-      const result = await controller.update('some-uuid', userDto);
+      const result = await controller.update(mokeuuid, userDto);
       expect(result).toBeInstanceOf(UserEntity);
-      expect(service.update).toHaveBeenCalledWith('some-uuid', userDto);
+      expect(service.update).toHaveBeenCalledWith(mokeuuid, userDto);
     });
   });
 
   describe('remove', () => {
     it('should remove a user', async () => {
-      const result = await controller.remove('some-uuid');
+      const result = await controller.remove(mokeuuid);
       expect(result).toBeUndefined();
-      expect(service.remove).toHaveBeenCalledWith('some-uuid');
+      expect(service.remove).toHaveBeenCalledWith(mokeuuid);
     });
   });
 });

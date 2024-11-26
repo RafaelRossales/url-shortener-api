@@ -1,5 +1,8 @@
 import { UserEntity } from "./entities/user.entity";
-import { UrlEntity } from 'src/modules/urls/entities/url.entity';
+import { UrlEntity } from './../urls/entities/url.entity';
+
+
+const mokeuuid = '90855jjgiogpçltkpotrhphk';
 
 describe('UserEntity', () => {
   let user: UserEntity;
@@ -33,7 +36,7 @@ describe('UserEntity', () => {
 
   it('should be able to add URLs', () => {
     const url = new UrlEntity();
-    url.id = 'some-url-uuid';
+    url.id = mokeuuid;
     url.originalUrl = 'http://example.com';
     url.shortUrl = 'http://short.url';
     url.user = user;
