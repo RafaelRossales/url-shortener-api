@@ -30,7 +30,7 @@ DATABASE_NAME
 JWT_SECRET
 ```
 
-### 3. Env 
+### 3. RUN  
 
 ```sh
 docker-compose up --build
